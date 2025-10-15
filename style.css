@@ -8,11 +8,6 @@
   font-family: "Inter", sans-serif;
 }
 
-/* Removed 'overflow-x: hidden;' to allow browser to manage scroll if needed, 
-   but content fixes prevent it now. */
-html, body {
-  /* overflow-x: hidden; */ 
-}
 
 body {
   /* CRITICAL: Removed 'fixed' for background-attachment to fix mobile zoom/scroll issues */
