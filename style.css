@@ -172,6 +172,11 @@ h1 {
   50% { opacity: 0; }
 }
 
+@keyframes typing-mobile {
+  from { width: 0ch; }
+  to { width: 17ch; }
+}
+
 /* -------------------------------------- */
 /* TEXT & FORMS */
 /* -------------------------------------- */
@@ -305,31 +310,29 @@ p {
   
   /* 1. Show the <br> tags on mobile */
   .mobile-break {
-      display: block; 
+      display: none; 
   }
   
-  /* 2. Allow text to wrap by removing single-line constraints */
-  .h1-wrapper {
-      white-space: normal; /* Allow wrapping */
-      overflow: visible;   /* Do not hide wrapped text */
-      width: 90%; /* Use full width for text wrapping */
-      max-width: 300px; 
-      height: auto;   /* Let height adjust to wrapped lines */
-      text-align: center;
+ .h1-wrapper {
+      /* Use the single-line settings from desktop, but with smaller values */
+      display: block; /* Use block to center its content */
+      margin: 0 auto; /* Center the wrapper itself */
+      
+      white-space: nowrap; /* CRITICAL: Force text on a single line for animation */
+      overflow: hidden;    /* CRITICAL: Hide un-typed text */
+      width: 18ch;         /* CRITICAL: The full width of the final typed text (approx) */
+      max-width: 90%;      /* Ensure it doesn't break out of the screen */
+      height: 1.3em;       /* Keep height fixed */
   }
 
   h1 {
-      /* Remove inline-block to allow it to take full width of wrapper */
-      display: block; 
-      white-space: normal;
-      overflow: visible;
+      /* CRITICAL FIX 3: Revert to inline-block/hidden text */
+      display: inline-block; 
+      white-space: nowrap;
+      overflow: hidden;
       
-      /* 3. Reintroduce border-right for the multi-line cursor effect */
-      border-right: none;
-      width: auto;
-      
-      /* 4. Use the multi-line typing animation */
-      animation: typing-wrap 3.8s steps(22, end) 0s forwards;
+      /* CRITICAL FIX 4: Revert to character animation */
+      animation: typing-mobile 3.8s steps(22, end) 0s forwards;
   }
   
   /* 5. Hide the single-line cursor replacement (::after) */
