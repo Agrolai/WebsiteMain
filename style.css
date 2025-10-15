@@ -315,6 +315,7 @@ p {
       width: 90%; /* Use full width for text wrapping */
       max-width: 300px; 
       height: auto;   /* Let height adjust to wrapped lines */
+      text-align: center;
   }
 
   h1 {
@@ -324,12 +325,11 @@ p {
       overflow: visible;
       
       /* 3. Reintroduce border-right for the multi-line cursor effect */
-      border-right: 3px solid #1a412b;
+      border-right: none;
       width: auto;
       
       /* 4. Use the multi-line typing animation */
-      animation: typing-wrap 3.8s steps(22, end) 0s forwards,
-                 blinkCursor 0.75s step-end infinite 3.8s;
+      animation: typing-wrap 3.8s steps(22, end) 0s forwards;
   }
   
   /* 5. Hide the single-line cursor replacement (::after) */
@@ -337,6 +337,11 @@ p {
       display: none;
   }
   
+  .blinking-dots {
+      opacity: 0;
+      animation: showDots 0.1s forwards 3.6s, blinkDots 1s infinite 3.7s;
+  }
+
   /* ------------------------------------ */
   
   .right-col {
