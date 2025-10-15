@@ -266,3 +266,76 @@ p {
   font-size: 0.9rem;
   margin: 0; /* Remove default paragraph margins */
 }
+
+/* -------------------------------------- */
+/* RESPONSIVE DESIGN FIXES */
+/* -------------------------------------- */
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll; /* Prevents zoomed-in background effect */
+    height: auto;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    line-height: 1.2;
+    width: 100%; /* Let text wrap naturally */
+    border-right: none; /* Remove the typing cursor line if it overflows */
+  }
+
+  .container {
+    width: 95%;
+    margin-top: 2rem;
+    padding: 1rem;
+  }
+
+  .content-split {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .left-col, .right-col {
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .right-col {
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  p, .form-description {
+    font-size: 0.9rem;
+  }
+
+  .subscribe-form input[type="email"],
+  .subscribe-form button {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+
+  .corner-logo {
+    width: 120px;
+    top: 10px;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .subscribe-form button {
+    width: 100%;
+  }
+
+  .socials a {
+    display: inline-block;
+    margin: 0 0.4rem;
+    font-size: 0.85rem;
+  }
+}
