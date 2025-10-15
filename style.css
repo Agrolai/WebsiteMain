@@ -73,6 +73,15 @@ body {
   flex-shrink: 0;  
 }
 
+.h1-wrapper {
+  display: inline-block;
+  overflow: hidden;      /* Keeps the animation inside */
+  white-space: nowrap;
+  width: 22ch;           /* matches final animation width */
+  height: 1em;           /* fixes vertical reflow */
+  line-height: 1.3;      /* keeps spacing consistent */
+}
+
 .right-col {
   flex: 0 0 35%;
   background: rgba(0, 0, 0, 0.65);
@@ -100,7 +109,7 @@ h1 {
   overflow: hidden;
   white-space: nowrap;
   border-right: 3px solid #1a412b;
-  width: 0;
+  width: auto;
   animation: typing 3.8s steps(22, end) 0s forwards,
              blinkCursor 0.75s step-end infinite;
   position: relative;
