@@ -8,19 +8,15 @@
   font-family: "Inter", sans-serif;
 }
 
-
 body {
-  /* CRITICAL: Removed 'fixed' for background-attachment to fix mobile zoom/scroll issues */
-  background: url("background.jpg") center/cover no-repeat;
+  /* CRITICAL FIX: Removed background image from body, placed on .overlay for Z-index control */
+  background-color: transparent; 
   color: #fff;
-  /* CRITICAL: Use min-height to ensure it fills the screen, but lets content extend if necessary */
   min-height: 100vh;
   height: auto; 
-  
-  /* CRITICAL: Flex layout to vertically center the main content */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
+  justify-content: center;
   align-items: center;
   position: relative;
 }
@@ -28,8 +24,9 @@ body {
 .overlay {
   position: absolute;
   inset: 0;
-  background: none;
-  z-index: 0;
+  /* CRITICAL FIX: Background image now here */
+  background: url("background.jpg") center/cover no-repeat;
+  z-index: 0; /* Lowest stacking layer */
 }
 
 /* -------------------------------------- */
@@ -39,13 +36,12 @@ body {
   z-index: 1;
   padding: clamp(1rem, 3vw, 2rem);
   max-width: 1200px;
-  width: 100%; /* Changed from 90% to better control spacing */
+  width: 100%;
   text-align: center;
-  flex-grow: 0; /* CRITICAL: Prevent it from aggressively growing */
+  flex-grow: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* CRITICAL: Reset margins and use flex centering instead */
   margin: 0 auto; 
 }
 
@@ -66,33 +62,41 @@ body {
   align-items: center;
   text-align: center;
   gap: 0;
-  /* Added margin-top to separate logo/top of page from content */
-  margin-top: clamp(8rem, 20vh, 10rem); 
+  
+  /* Z-index fix for text visibility */
+  position: relative; 
+  z-index: 2; 
+  
+  margin-top: clamp(4rem, 10vh, 6rem); /* Balanced top margin */
   width: 100%;
 }
 
 .left-col {
   width: 100%;
   text-align: center;
-  overflow: visible; /* Allows animation to be handled by h1-wrapper */
+  overflow: visible;
   flex-shrink: 0;  
+}
+
+/* CRITICAL: Hide the mobile break on large screens (Default) */
+.mobile-break {
+    display: none;
 }
 
 /* CRITICAL FIX: The wrapper provides a fixed width to prevent layout shift */
 .h1-wrapper {
   display: inline-block;
-  overflow: hidden;      /* Keeps the animation inside */
+  overflow: hidden;      
   white-space: nowrap;
-  width: 22ch;           /* CRITICAL: Matches final animated width (22 characters) */
-  height: 1.3em;         /* CRITICAL: fixes vertical reflow */
-  line-height: 1.3;      /* keeps spacing consistent */
-  position: relative;    /* Needed for cursor pseudoelement positioning */
+  width: 23ch;           /* Text (22ch) + 1ch buffer */
+  height: 1.3em;         
+  line-height: 1.3;      
+  position: relative;    
 }
 
 .right-col {
-  /* CRITICAL: Tighter max-width for better mobile aesthetics and less scrolling */
   width: min(90%, 350px); 
-  flex: none; /* Removed flex-shrink/grow properties */
+  flex: none; 
   background: rgba(0, 0, 0, 0.65);
   padding: clamp(1rem, 2.5vw, 1.8rem);
   border-radius: 12px;
@@ -100,48 +104,46 @@ body {
   text-align: left;
   font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   line-height: 1.5;
-  margin-top: clamp(2rem, 5vh, 4rem); /* Reduced top margin slightly */
+  margin-top: clamp(5rem, 15vh, 8rem); /* Good separation from H1 */
 }
 
 /* -------------------------------------- */
-/* HEADER & ANIMATION */
+/* HEADER & ANIMATION (Desktop) */
 /* -------------------------------------- */
 h1 {
   font-family: "Source Code Pro", monospace;
   font-weight: 400;
   font-size: clamp(1.8rem, 6vw, 5rem);
   line-height: 1.3;
-  color: #1a412b;
+  color: #1a412b; /* Change this to a light color (e.g., #A4F275 or #FFF) for visibility if needed */
   text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.2);
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
   
-  /* CRITICAL FIX: Removed border-right from h1 and applied it to a pseudoelement */
   border-right: none; 
-  width: auto; /* width is now constrained by the h1-wrapper */
+  width: auto; 
   
-  /* CRITICAL FIX: Removed blinkCursor animation from h1 */
+  /* Uses the desktop typing animation */
   animation: typing 3.8s steps(22, end) 0s forwards;
   
-  /* Adjusted top position for better vertical alignment */
   position: relative; 
   top: -0.05em; 
 }
 
-/* CRITICAL FIX: Cursor applied to h1-wrapper::after to prevent layout shift */
+/* Cursor style for desktop */
 .h1-wrapper::after {
     content: '';
     display: inline-block;
     vertical-align: top;
     height: 1em;
-    width: 3px; /* Cursor width */
-    background: #1a412b;
+    width: 3px; 
+    background: #1a412b; /* Match H1 color or use a light color */
     margin-left: 2px;
-    /* Start the blink animation AFTER typing is complete (3.8s) */
     animation: blinkCursor 0.75s step-end infinite 3.8s; 
 }
 
+/* Desktop typing animation (single line) */
 @keyframes typing {
   from { width: 0ch; }
   to { width: 22ch; }
@@ -150,6 +152,12 @@ h1 {
 @keyframes blinkCursor {
   from, to { opacity: 0; }
   50% { opacity: 1; }
+}
+
+/* Mobile typing animation (multi-line) - Defined here but only used in media query */
+@keyframes typing-wrap {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 .blinking-dots {
@@ -241,7 +249,6 @@ p {
   padding: clamp(1rem, 3vw, 2rem);
   text-align: center;
   z-index: 1;
-  /* CRITICAL: Ensure footer is at the bottom when content doesn't fill the screen */
   margin-top: auto; 
 }
 
@@ -284,33 +291,57 @@ p {
 /* -------------------------------------- */
 @media (max-width: 600px) {
   body {
-    background-attachment: scroll; /* Ensures background looks right on mobile */
+    background-attachment: scroll;
     height: auto;
     min-height: 100vh;
   }
-
+  
   .content-split {
     gap: 1.5rem;
-    margin-top: clamp(5rem, 15vh, 8rem); /* Slightly less top margin on small screens */
+    margin-top: clamp(3rem, 10vh, 5rem); 
   }
 
-  /* Adjustments for H1 size and typing width */
-  .h1-wrapper {
-      width: 18ch; /* Tighter width for better fit on small phones */
+  /* --- CRITICAL TEXT WRAP FIXES --- */
+  
+  /* 1. Show the <br> tags on mobile */
+  .mobile-break {
+      display: block; 
   }
   
+  /* 2. Allow text to wrap by removing single-line constraints */
+  .h1-wrapper {
+      white-space: normal; /* Allow wrapping */
+      overflow: visible;   /* Do not hide wrapped text */
+      width: 90%; /* Use full width for text wrapping */
+      max-width: 300px; 
+      height: auto;   /* Let height adjust to wrapped lines */
+  }
+
   h1 {
-      font-size: clamp(1.5rem, 8vw, 3.5rem); 
+      /* Remove inline-block to allow it to take full width of wrapper */
+      display: block; 
+      white-space: normal;
+      overflow: visible;
+      
+      /* 3. Reintroduce border-right for the multi-line cursor effect */
+      border-right: 3px solid #1a412b;
+      width: auto;
+      
+      /* 4. Use the multi-line typing animation */
+      animation: typing-wrap 3.8s steps(22, end) 0s forwards,
+                 blinkCursor 0.75s step-end infinite 3.8s;
   }
-
-  @keyframes typing {
-    from { width: 0ch; }
-    to { width: 18ch; } /* Match the new wrapper width */
+  
+  /* 5. Hide the single-line cursor replacement (::after) */
+  .h1-wrapper::after {
+      display: none;
   }
-
+  
+  /* ------------------------------------ */
+  
   .right-col {
     max-width: 90%;
-    width: 320px; /* Fixed small width for signup box */
+    width: 320px; 
     padding: 1rem;
     margin-top: 2rem;
   }
@@ -325,22 +356,4 @@ p {
   }
 }
 
-@media (max-width: 400px) {
-  .corner-logo {
-    width: 80px;
-  }
-  
-  .h1-wrapper {
-    width: 16ch; /* Even tighter for very small screens */
-  }
-  
-  @keyframes typing {
-    from { width: 0ch; }
-    to { width: 16ch; } /* Match the new wrapper width */
-  }
-  
-  .right-col {
-    width: 90%;
-    max-width: 300px;
-  }
-}
+/* Remove the @media (max-width: 400px) block entirely, as the 600px block now handles wrapping effectively. */
