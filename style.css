@@ -8,17 +8,24 @@
   font-family: "Inter", sans-serif;
 }
 
+/* Removed 'overflow-x: hidden;' to allow browser to manage scroll if needed, 
+   but content fixes prevent it now. */
 html, body {
-  overflow-x: hidden;
+  /* overflow-x: hidden; */ 
 }
 
 body {
-  background: url("background.jpg") center/cover no-repeat fixed;
+  /* CRITICAL: Removed 'fixed' for background-attachment to fix mobile zoom/scroll issues */
+  background: url("background.jpg") center/cover no-repeat;
   color: #fff;
-  height: 100vh;
+  /* CRITICAL: Use min-height to ensure it fills the screen, but lets content extend if necessary */
+  min-height: 100vh;
+  height: auto; 
+  
+  /* CRITICAL: Flex layout to vertically center the main content */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center; /* Center content vertically */
   align-items: center;
   position: relative;
 }
@@ -37,14 +44,14 @@ body {
   z-index: 1;
   padding: clamp(1rem, 3vw, 2rem);
   max-width: 1200px;
-  width: 90%;
+  width: 100%; /* Changed from 90% to better control spacing */
   text-align: center;
-  flex-grow: 1;
+  flex-grow: 0; /* CRITICAL: Prevent it from aggressively growing */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: clamp(8rem, 20vh, 10rem);
-  margin-bottom: auto;
+  /* CRITICAL: Reset margins and use flex centering instead */
+  margin: 0 auto; 
 }
 
 .corner-logo {
@@ -64,26 +71,33 @@ body {
   align-items: center;
   text-align: center;
   gap: 0;
+  /* Added margin-top to separate logo/top of page from content */
+  margin-top: clamp(8rem, 20vh, 10rem); 
+  width: 100%;
 }
 
 .left-col {
   width: 100%;
   text-align: center;
-  overflow: hidden; /* Prevent layout shift while typing */
+  overflow: visible; /* Allows animation to be handled by h1-wrapper */
   flex-shrink: 0;  
 }
 
+/* CRITICAL FIX: The wrapper provides a fixed width to prevent layout shift */
 .h1-wrapper {
   display: inline-block;
   overflow: hidden;      /* Keeps the animation inside */
   white-space: nowrap;
-  width: 22ch;           /* matches final animation width */
-  height: 1em;           /* fixes vertical reflow */
+  width: 22ch;           /* CRITICAL: Matches final animated width (22 characters) */
+  height: 1.3em;         /* CRITICAL: fixes vertical reflow */
   line-height: 1.3;      /* keeps spacing consistent */
+  position: relative;    /* Needed for cursor pseudoelement positioning */
 }
 
 .right-col {
-  flex: 0 0 35%;
+  /* CRITICAL: Tighter max-width for better mobile aesthetics and less scrolling */
+  width: min(90%, 350px); 
+  flex: none; /* Removed flex-shrink/grow properties */
   background: rgba(0, 0, 0, 0.65);
   padding: clamp(1rem, 2.5vw, 1.8rem);
   border-radius: 12px;
@@ -91,8 +105,7 @@ body {
   text-align: left;
   font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   line-height: 1.5;
-  margin-top: clamp(2rem, 8vh, 6rem);
-  width: min(90%, 500px);
+  margin-top: clamp(2rem, 5vh, 4rem); /* Reduced top margin slightly */
 }
 
 /* -------------------------------------- */
@@ -108,12 +121,30 @@ h1 {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  border-right: 3px solid #1a412b;
-  width: auto;
-  animation: typing 3.8s steps(22, end) 0s forwards,
-             blinkCursor 0.75s step-end infinite;
-  position: relative;
-  top: -0.5vh;
+  
+  /* CRITICAL FIX: Removed border-right from h1 and applied it to a pseudoelement */
+  border-right: none; 
+  width: auto; /* width is now constrained by the h1-wrapper */
+  
+  /* CRITICAL FIX: Removed blinkCursor animation from h1 */
+  animation: typing 3.8s steps(22, end) 0s forwards;
+  
+  /* Adjusted top position for better vertical alignment */
+  position: relative; 
+  top: -0.05em; 
+}
+
+/* CRITICAL FIX: Cursor applied to h1-wrapper::after to prevent layout shift */
+.h1-wrapper::after {
+    content: '';
+    display: inline-block;
+    vertical-align: top;
+    height: 1em;
+    width: 3px; /* Cursor width */
+    background: #1a412b;
+    margin-left: 2px;
+    /* Start the blink animation AFTER typing is complete (3.8s) */
+    animation: blinkCursor 0.75s step-end infinite 3.8s; 
 }
 
 @keyframes typing {
@@ -122,8 +153,8 @@ h1 {
 }
 
 @keyframes blinkCursor {
-  from, to { border-color: transparent; }
-  50% { border-color: #1a412b; }
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 .blinking-dots {
@@ -215,7 +246,8 @@ p {
   padding: clamp(1rem, 3vw, 2rem);
   text-align: center;
   z-index: 1;
-  margin-top: auto;
+  /* CRITICAL: Ensure footer is at the bottom when content doesn't fill the screen */
+  margin-top: auto; 
 }
 
 .footer-separator {
@@ -257,41 +289,63 @@ p {
 /* -------------------------------------- */
 @media (max-width: 600px) {
   body {
-    background-attachment: scroll; /* fix zoom */
+    background-attachment: scroll; /* Ensures background looks right on mobile */
     height: auto;
     min-height: 100vh;
   }
 
   .content-split {
     gap: 1.5rem;
+    margin-top: clamp(5rem, 15vh, 8rem); /* Slightly less top margin on small screens */
+  }
+
+  /* Adjustments for H1 size and typing width */
+  .h1-wrapper {
+      width: 18ch; /* Tighter width for better fit on small phones */
+  }
+  
+  h1 {
+      font-size: clamp(1.5rem, 8vw, 3.5rem); 
+  }
+
+  @keyframes typing {
+    from { width: 0ch; }
+    to { width: 18ch; } /* Match the new wrapper width */
   }
 
   .right-col {
     max-width: 90%;
-    padding: 0.8rem 1rem;
-    margin-top: 1.5rem;
+    width: 320px; /* Fixed small width for signup box */
+    padding: 1rem;
+    margin-top: 2rem;
   }
 
-  h1 {
-    width: 20ch; /* slightly shorter typing width */
+  .corner-logo {
+    width: 90px;
+    top: 10px;
+  }
+  
+  .subscribe-form button {
+    width: 100%;
   }
 }
 
 @media (max-width: 400px) {
-  h1 {
-    width: 18ch;
-  }
-
   .corner-logo {
-    width: 100px;
-    top: 10px;
+    width: 80px;
   }
-
+  
+  .h1-wrapper {
+    width: 16ch; /* Even tighter for very small screens */
+  }
+  
+  @keyframes typing {
+    from { width: 0ch; }
+    to { width: 16ch; } /* Match the new wrapper width */
+  }
+  
   .right-col {
-    padding: 0.8rem;
-  }
-
-  .subscribe-form button {
-    width: 100%;
+    width: 90%;
+    max-width: 300px;
   }
 }
