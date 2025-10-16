@@ -177,6 +177,19 @@ h1 {
   to { width: 17ch; }
 }
 
+@keyframes reveal-word-1 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes reveal-word-2 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes reveal-word-3 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* -------------------------------------- */
 /* TEXT & FORMS */
 /* -------------------------------------- */
@@ -310,34 +323,54 @@ p {
   
   /* 1. Show the <br> tags on mobile */
   .mobile-break {
-      display: none; 
+      display: block; 
   }
   
  .h1-wrapper {
-      /* Use the single-line settings from desktop, but with smaller values */
-      display: block; /* Use block to center its content */
-      margin: 0 auto; /* Center the wrapper itself */
-      
-      white-space: nowrap; /* CRITICAL: Force text on a single line for animation */
-      overflow: hidden;    /* CRITICAL: Hide un-typed text */
-      width: 18ch;         /* CRITICAL: The full width of the final typed text (approx) */
-      max-width: 90%;      /* Ensure it doesn't break out of the screen */
-      height: 1.3em;       /* Keep height fixed */
-  }
+        display: block; 
+        margin: 0 auto; 
+        
+        /* Restore multi-line wrapping */
+        white-space: normal; 
+        overflow: visible;    
+        
+        /* Allow wrapper to size correctly for wrapped text */
+        width: 90%; 
+        max-width: 300px; 
+        height: auto;
+    }
 
   h1 {
-      /* CRITICAL FIX 3: Revert to inline-block/hidden text */
-      display: inline-block; 
-      white-space: nowrap;
-      overflow: hidden;
-      
-      /* CRITICAL FIX 4: Revert to character animation */
-      animation: typing-mobile 3.8s steps(22, end) 0s forwards;
-  }
+    text-align: center;
+    display: block; 
+    
+    animation: none;
+    border-right: none;
+
+    white-space: normal;
+    overflow: visible;
+
+    font-size: clamp(2rem, 8vw, 4rem); 
+    }
   
   /* 5. Hide the single-line cursor replacement (::after) */
   .h1-wrapper::after {
       display: none;
+  }
+
+  .word-1, .word-2, .word-3 {
+    opacity: 0;
+    display: inline-block; 
+  }
+
+  .word-1 {
+    animation: reveal-word-1 0.01s forwards 0s;
+  }
+  .word-2 {
+    animation: reveal-word-2 0.01s forwards 1.2s;    /* Word 2 appears after a delay */
+  }
+  .word-3 {
+    animation: reveal-word-3 0.01s forwards 2.4s;    /* Word 3 appears after another delay */
   }
   
   .blinking-dots {
