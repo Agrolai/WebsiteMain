@@ -48,8 +48,8 @@ body {
 
 .corner-logo {
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: -8px;
+  left: -20px;
   margin: 10px;
   width: clamp(100px, 10vw, 150px);
   z-index: 100;
