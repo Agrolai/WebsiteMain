@@ -94,7 +94,8 @@ body {
 }
 
 .right-col {
-  width: min(90%, 350px); 
+  max-width: 450px;
+  width: 90%; 
   flex: none; 
   background: rgba(0, 0, 0, 0.65);
   padding: clamp(1rem, 2.5vw, 1.8rem);
@@ -348,7 +349,6 @@ p {
   }
   
   .blinking-dots {
-      /* Keep the dots blinking/showing after the text appears */
       opacity: 1;
       animation: showDots 0.1s forwards 2s, blinkDots 1s infinite 2.1s;
   }
@@ -360,6 +360,10 @@ p {
     width: 320px; 
     padding: 1rem;
     margin-top: 2rem;
+
+    max-width: 320px;
+    width: 90vw;
+    margin: 2rem auto 0 auto;
   }
 
   .corner-logo {
@@ -371,5 +375,3 @@ p {
     width: 100%;
   }
 }
-
-/* Remove the @media (max-width: 400px) block entirely, as the 600px block now handles wrapping effectively. */
