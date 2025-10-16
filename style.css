@@ -331,6 +331,7 @@ p {
       animation: none;
       width: auto;
       opacity: 1;
+      font-weight: 600;
   }
   
   /* 5. Hide the single-line cursor replacement (::after) */
