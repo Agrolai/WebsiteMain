@@ -10,7 +10,7 @@
 
 body {
   /* CRITICAL FIX: Removed background image from body, placed on .overlay for Z-index control */
-  background-color: transparent; 
+  background-color: #000000; 
   color: #fff;
   min-height: 100vh;
   height: auto; 
