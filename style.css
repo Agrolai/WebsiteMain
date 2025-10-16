@@ -9,7 +9,6 @@
 }
 
 body {
-  /* CRITICAL FIX: Removed background image from body, placed on .overlay for Z-index control */
   background-color: #000000; 
   color: #fff;
   min-height: 100vh;
@@ -19,6 +18,8 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+
+  overflow-x: hidden;
 }
 
 .overlay {
@@ -47,8 +48,9 @@ body {
 
 .corner-logo {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 5px;
+  left: 5px;
+  margin: 10px;
   width: clamp(100px, 10vw, 150px);
   z-index: 100;
 }
