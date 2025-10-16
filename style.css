@@ -1,6 +1,13 @@
 /* -------------------------------------- */
 /* GLOBAL RESET & BASE */
 /* -------------------------------------- */
+html {
+    /* CRITICAL FIX: This is often the necessary step to remove the phantom scrollbar. 
+       It forces the root element to hide any minor overflow on both axes. */
+    overflow: hidden; 
+    overflow-y: auto; /* Re-enable vertical scroll ONLY when content needs it */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,14 +19,14 @@ body {
   background-color: #000000; 
   color: #fff;
   min-height: 100vh;
-  height: auto; 
+  height: 100%; /*recent change | auto */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
 
-  overflow: hidden;
+  overflow-x: hidden; /*just added */
 }
 
 .overlay {
