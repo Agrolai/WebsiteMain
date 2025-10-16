@@ -310,7 +310,7 @@ p {
   
   /* 1. Show the <br> tags on mobile */
   .mobile-break {
-      display: none; 
+      display: block; 
   }
   
  .h1-wrapper {
@@ -318,21 +318,20 @@ p {
       display: block; /* Use block to center its content */
       margin: 0 auto; /* Center the wrapper itself */
       
-      white-space: nowrap; /* CRITICAL: Force text on a single line for animation */
-      overflow: hidden;    /* CRITICAL: Hide un-typed text */
-      width: 18ch;         /* CRITICAL: The full width of the final typed text (approx) */
-      max-width: 90%;      /* Ensure it doesn't break out of the screen */
-      height: 1.3em;       /* Keep height fixed */
+      white-space: normal; /* CRITICAL: Force text on a single line for animation */
+      overflow: visible;    /* CRITICAL: Hide un-typed text */
+      width: 100%;         /* CRITICAL: The full width of the final typed text (approx) */ 
+      height: auto;       /* Keep height fixed */
   }
 
   h1 {
       /* CRITICAL FIX 3: Revert to inline-block/hidden text */
-      display: inline-block; 
-      white-space: nowrap;
-      overflow: hidden;
-      
-      /* CRITICAL FIX 4: Revert to character animation */
-      animation: typing-mobile 3.8s steps(22, end) 0s forwards;
+      display: block; 
+      white-space: normal;
+      overflow: visible;
+      text-align: center;
+      animation: none;
+      width: auto;
   }
   
   /* 5. Hide the single-line cursor replacement (::after) */
@@ -340,9 +339,20 @@ p {
       display: none;
   }
   
-  .blinking-dots {
+  h1 {
+      /* This replaces the typing animation with a simple fade-in */
       opacity: 0;
-      animation: showDots 0.1s forwards 3.6s, blinkDots 1s infinite 3.7s;
+      animation: fadeIn 1.5s ease-out 0.5s forwards;
+  }
+
+  @keyframes fadeIn {
+      to { opacity: 1; }
+  }
+  
+  .blinking-dots {
+      /* Keep the dots blinking/showing after the text appears */
+      opacity: 0;
+      animation: showDots 0.1s forwards 2s, blinkDots 1s infinite 2.1s;
   }
 
   /* ------------------------------------ */
