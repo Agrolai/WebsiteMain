@@ -1,11 +1,6 @@
 /* -------------------------------------- */
 /* GLOBAL RESET & BASE */
 /* -------------------------------------- */
-html {
-    overflow: hidden; 
-    overflow-y: auto; /* Re-enable vertical scroll ONLY when content needs it */
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -17,21 +12,22 @@ body {
   background-color: #000000; 
   color: #fff;
   min-height: 100vh;
-  height: 100vh; /*auto */
+  height: auto; 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
 
-  overflow-x: hidden; /*just added */
+  overflow-x: hidden;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
+  /* CRITICAL FIX: Background image now here */
   background: url("background.jpg") center/cover no-repeat;
-  z-index: 0;
+  z-index: 0; /* Lowest stacking layer */
 }
 
 /* -------------------------------------- */
@@ -43,7 +39,7 @@ body {
   max-width: 1200px;
   width: 100%;
   text-align: center;
-  flex-grow: 0; /* 0 */
+  flex-grow: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,9 +48,9 @@ body {
 
 .corner-logo {
   position: fixed;
-  top: 10; /*  -20 */
-  left: 10; /*  -8 */
-  /* margin: 10px; */
+  top: 0px;
+  left: 0px;
+  margin: 10px;
   width: clamp(100px, 10vw, 150px);
   z-index: 100;
 }
