@@ -19,7 +19,7 @@ body {
   align-items: center;
   position: relative;
 
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .overlay {
