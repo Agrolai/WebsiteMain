@@ -2,8 +2,6 @@
 /* GLOBAL RESET & BASE */
 /* -------------------------------------- */
 html {
-    /* CRITICAL FIX: This is often the necessary step to remove the phantom scrollbar. 
-       It forces the root element to hide any minor overflow on both axes. */
     overflow: hidden; 
     overflow-y: auto; /* Re-enable vertical scroll ONLY when content needs it */
 }
@@ -19,7 +17,7 @@ body {
   background-color: #000000; 
   color: #fff;
   min-height: 100vh;
-  height: 100%; /*recent change | auto */
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,8 +53,8 @@ body {
 
 .corner-logo {
   position: fixed;
-  top: -20px;
-  left: -8px;
+  top: 0; /*  -20 */
+  left: 0; /*  -8 */
   margin: 10px;
   width: clamp(100px, 10vw, 150px);
   z-index: 100;
